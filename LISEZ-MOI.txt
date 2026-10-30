@@ -1,0 +1,17 @@
+COMPTABILITÉ FEM — version application
+
+Ce dossier est l'application complète. Il faut le mettre en ligne une fois, puis tu l'installes sur ton téléphone comme une vraie application.
+
+1) METTRE EN LIGNE (une seule fois, depuis un ordinateur)
+   - Netlify Drop : ouvre app.netlify.com/drop et glisse tout le dossier "comptabilite-fem". Tu reçois un lien.
+   - Ou Vercel, comme pour Fem Forex : crée un nouveau projet avec ce dossier (le fichier index.html est à la racine, aucune configuration à faire).
+
+2) INSTALLER SUR LE TÉLÉPHONE
+   - Android (Chrome) : ouvre le lien, menu ⋮, "Installer l'application".
+   - iPhone (Safari) : ouvre le lien, bouton Partager, "Sur l'écran d'accueil".
+   L'icône F doré apparaît sur ton écran. Elle s'ouvre en plein écran et marche sans réseau.
+
+3) TES DONNÉES
+   Dans cette version, tes écritures sont gardées sur l'appareil. Si tu vides les données du navigateur ou tu changes de téléphone, tu les perds.
+   Réglages > "Télécharger une sauvegarde (.json)" une fois par semaine. Pour les récupérer : Réglages > "Restaurer une sauvegarde".
+   La version publiée dans Claude et cette version installée ont chacune leur propre mémoire. Pour passer des données de l'une à l'autre : sauvegarde dans l'une, restaure dans l'autre.
