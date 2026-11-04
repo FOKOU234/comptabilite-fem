@@ -1,14 +1,14 @@
 {
- "name": "Comptabilité Fem",
- "short_name": "Compta Fem",
- "description": "Arrivages, ventes, dépenses, stock et alertes",
+ "name": "Lady Gaine",
+ "short_name": "Lady Gaine",
+ "description": "Arrivages, commandes, livraisons, factures et caisse",
  "lang": "fr",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",
  "orientation": "portrait",
- "background_color": "#0A0910",
- "theme_color": "#0A0910",
+ "background_color": "#110A0D",
+ "theme_color": "#110A0D",
  "icons": [
   {
    "src": "icon-192.png",
