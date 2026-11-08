@@ -631,6 +631,19 @@ h3{font-size:12px;letter-spacing:.14em}
 .sp-skip{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;font-size:11px;letter-spacing:.14em;color:#7d6c55;text-transform:uppercase}
 @media (prefers-reduced-motion:reduce){.sp-logo,.sp-logo i,.sp-name,.sp-sub,.sp-bar,.sp-bar b{animation:none!important}}
 .ctl-t .ver{font:600 11px var(--f-mono,monospace);color:var(--acc);letter-spacing:.04em}
+/* audit : jamais plus large que l'écran */
+.sec,main.enter,.wrap{min-width:0;max-width:100%}
+.sec{grid-template-columns:minmax(0,1fr)}
+.sec>*{min-width:0}
+.pghint span{min-width:0;overflow-wrap:anywhere}
+@media (max-width:340px){.acts3{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.acts3 button{padding-left:6px;padding-right:6px;font-size:13px}.cream{padding-left:14px;padding-right:14px}.cream .c3 b{font-size:13px}}
+@media (max-width:340px){.wrap{padding-left:14px;padding-right:14px}.acts3 .at{padding:10px 6px;min-width:0}.acts3 .at small{white-space:normal;font-size:11px}.acts3 .at b{font-size:14px}.pl,.pst{min-width:0}.pst{padding-left:6px;padding-right:6px}.cream,.card{min-width:0}.top .t b,.top b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+body{margin:0}
+.cl,.cream .cl{white-space:normal!important;overflow-wrap:anywhere}main.enter{grid-template-columns:minmax(0,1fr)}
+.at2,.acts3 button,.acts3>*{min-width:0}
+.at2 small,.acts3 small{white-space:normal;overflow-wrap:anywhere}
+@media (max-width:340px){.at2{padding-left:8px;padding-right:8px}.at2 b{font-size:13px}.acts3{gap:6px}}
+.strip.flash i{display:none}.strip .ic{flex:none}
 
 </style>
 
@@ -650,7 +663,7 @@ h3{font-size:12px;letter-spacing:.14em}
 /* Collections : "arrivages" est l'ancien format (lecture seule), "lots" est le nouveau */
 var COLS=['lots','ventes','depenses','reglements','justifs','arrivages','clotures','commandes'];
 function emptyData(){var o={};COLS.forEach(function(c){o[c]=[]});return o}
-var DEF={rulesV:3,piecesMax:40,piecesGood:10,remiseMax:20,transpPct:50,seuil:20,bigExpense:2500,goal:10,goalU:'pieces',stockMin:9,varMin:2,fond:0,size:'lg',pendMax:4,livMin:90,facStyle:'moderne',iconStyle:'emoji',fx:'leger',splash:'on',logoFac:'gaine',theme:'gaine',nom:'',shopNom:'Lady Gaine',shopSlogan:'Gaines & culottes sculptantes',shopTel:'674206746',shopAdr:'Douala – Akwa, en face de Faya hôtel',shopMail:'ladygaine@gmail.com',shopBP:'24546',shopCond:'Produit authentique Lady Gaine\nGarantie de 3 mois après l\'achat\nÉchange possible en cas de défaut de fabrication\nPaiement à la réception du colis\nLes retours doivent être signalés sous 24h après livraison',shopVille:'Douala, Cameroun',shopNiu:'',shopNote:'Échange possible sous 48 h si l\'article est intact et dans son emballage. Merci de votre confiance.'};
+var DEF={rulesV:3,piecesMax:40,piecesGood:10,remiseMax:20,transpPct:50,seuil:20,bigExpense:2500,goal:10,goalU:'pieces',stockMin:9,varMin:2,fond:0,size:'lg',pendMax:4,livMin:90,facStyle:'moderne',lastBackup:0,iconStyle:'emoji',fx:'leger',splash:'on',logoFac:'gaine',theme:'gaine',nom:'',shopNom:'Lady Gaine',shopSlogan:'Gaines & culottes sculptantes',shopTel:'674206746',shopAdr:'Douala – Akwa, en face de Faya hôtel',shopMail:'ladygaine@gmail.com',shopBP:'24546',shopCond:'Produit authentique Lady Gaine\nGarantie de 3 mois après l\'achat\nÉchange possible en cas de défaut de fabrication\nPaiement à la réception du colis\nLes retours doivent être signalés sous 24h après livraison',shopVille:'Douala, Cameroun',shopNiu:'',shopNote:'Échange possible sous 48 h si l\'article est intact et dans son emballage. Merci de votre confiance.'};
 var CATS=['Transport','Livraison','Connexion','Consommation','Imprévu','Autre'];
 var PAYV=['Cash','Orange Money','MTN MoMo'];
 var PAYR=['Cash','Orange Money','MTN MoMo','Virement'];
@@ -955,9 +968,11 @@ function drawHead(){
     +'<button class="ib" data-act="help" aria-label="Comment ça marche">'+ic('help')+'</button><button class="ib" data-act="tab" data-tab="reglages" aria-label="Réglages" aria-current="'+(S.tab==='reglages')+'">'+ic('gear')+'</button>';
   $('#nav').innerHTML='<div class="dock-in">'+NAV.map(function(n){return '<button class="nb" data-act="tab" data-tab="'+n[0]+'" aria-current="'+(S.tab===n[0])+'">'+ic(n[2],22)+'<span>'+n[1]+'</span></button>'}).join('')+'</div>';
   var fl=risks().filter(function(r){return r.state==='flash'}),h='';
-  if(fl.length)h+='<button class="strip flash" data-act="tab" data-tab="accueil"><i></i><span>Dépenses trop élevées : '+esc(fl.map(function(r){return perLabel(r.p).toLowerCase()+' '+pct(Math.min(r.r,9.99))}).join(' · '))+'</span></button>';
+  if(fl.length)h+='<button class="strip flash" data-act="tab" data-tab="accueil">'+ic('alert',20)+'<span>Dépenses trop élevées : '+esc(fl.map(function(r){return perLabel(r.p).toLowerCase()+' '+pct(Math.min(r.r,9.99))}).join(' · '))+'</span></button>';
   var lc=lateCredits();
   if(lc.length)h+='<button class="strip flash" data-act="tab" data-tab="accueil"><i></i><span>Crédit en retard : '+esc((lc[0].fournisseur||'fournisseur')+' · '+F(lc[0].reste)+' · '+daysLate(lc[0].echeance)+' j')+(lc.length>1?' (+'+(lc.length-1)+')':'')+'</span></button>';
+  var bd=S.cfg.lastBackup?Math.floor((Date.now()-S.cfg.lastBackup)/864e5):null;
+  if(S.data.ventes.length&&(bd===null||bd>=7))h+='<button class="strip flash" data-act="backup-share">'+ic('alert',20)+'<span>'+(bd===null?'Aucune sauvegarde faite':'Dernière sauvegarde il y a '+bd+' jours')+' · touche pour sauvegarder</span></button>';
   var g=goalOf(agg(todayS(),todayS()));
   if(g.ratio>=1)h+='<button class="strip ok" data-act="tab" data-tab="accueil"><i></i><span>🎉 '+esc(g.label)+' : '+N(g.cur)+' '+esc(g.unit)+' aujourd\'hui</span></button>';
   $('#strips').innerHTML=h}
@@ -1312,7 +1327,7 @@ function viewReg(){
    +'<div class="grp"><h3>Caisse</h3>'+fld('c-fond','Argent de départ (F)','<input id="c-fond" data-cfg="fond" type="number" inputmode="numeric" min="0" value="'+c.fond+'">','L\'argent que tu avais avant d\'utiliser l\'application. Il sert à calculer ton solde de caisse.')+'</div>'
    +'<div class="grp"><h3>Données</h3><p class="lead">'+(S.mode==='cloud'?'Tes écritures sont enregistrées en ligne dans cette page et restent après chaque fermeture.':STANDALONE?'Tes écritures sont gardées sur cet appareil. Télécharge une sauvegarde pour ne rien perdre si tu changes de téléphone.':'Cette vue n\'a pas accès à l\'enregistrement en ligne : tes écritures restent seulement sur cet appareil. Ouvre la page depuis ton compte Claude pour les enregistrer en ligne.')+'</p>';
   if(S.dl||STANDALONE)h+='<div class="chips">'+[['arrivages','Arrivages'],['credits','Crédits'],['ventes','Ventes'],['depenses','Dépenses'],['journal','Journal']].map(function(x){return '<button class="chip" data-act="export" data-what="'+x[0]+'">Exporter '+x[1]+' (CSV)</button>'}).join('')+'</div>';
-  h+='<div class="btns"><button class="btn" data-act="backup">Télécharger une sauvegarde (.json)</button><label class="btn" style="display:block;text-align:center;cursor:pointer">Restaurer une sauvegarde<input id="imp" type="file" accept=".json,application/json" hidden></label>'
+  h+='<p class="lead">'+(S.cfg.lastBackup?'Dernière sauvegarde : '+new Date(S.cfg.lastBackup).toLocaleDateString('fr-FR',{day:'numeric',month:'long'})+' à '+new Date(S.cfg.lastBackup).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):'Aucune sauvegarde faite pour le moment.')+'</p><div class="btns"><button class="btn primary" data-act="backup-share">Envoyer la sauvegarde (WhatsApp, Drive…)</button><button class="btn" data-act="backup">Télécharger une sauvegarde (.json)</button><label class="btn" style="display:block;text-align:center;cursor:pointer">Restaurer une sauvegarde<input id="imp" type="file" accept=".json,application/json" hidden></label>'
     +'<button class="btn" data-act="demo-on">Charger des données d\'exemple</button><button class="btn" data-act="demo-off">Supprimer les données d\'exemple</button></div></div>';
   if(STANDALONE){
     var inst=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone;
@@ -2239,7 +2254,14 @@ function saveFile(name,data,mime){
   if(S.dl)return S.dl.save({filename:name,data:data});
   try{var u=URL.createObjectURL(new Blob([data],{type:mime||'text/plain'})),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000);return Promise.resolve({status:'saved'})}catch(e){return Promise.reject(e)}}
 function okSave(name,data,mime,msg){saveFile(name,data,mime).then(function(){toast(msg||'Fichier enregistré.')}).catch(function(e){if(e&&e.code!=='declined')toast('Export impossible ici.')})}
-function exportJson(){okSave('lady-gaine-sauvegarde-'+todayS()+'.json',JSON.stringify({app:'lady-gaine',v:2,at:Date.now(),cfg:S.cfg,data:S.data}),'application/json','Sauvegarde enregistrée. Garde ce fichier en lieu sûr.')}
+function bkJson(){return JSON.stringify({app:'lady-gaine',v:2,at:Date.now(),cfg:S.cfg,data:S.data})}
+function bkMark(){putCfg({lastBackup:Date.now()})}
+function exportJson(){saveFile('lady-gaine-sauvegarde-'+todayS()+'.json',bkJson(),'application/json').then(function(){bkMark();toast('Sauvegarde enregistrée. Garde ce fichier en lieu sûr.')}).catch(function(e){if(e&&e.code!=='declined')toast('Export impossible ici.')})}
+function shareBackup(){
+  var name='lady-gaine-sauvegarde-'+todayS()+'.json';
+  try{var f=new File([bkJson()],name,{type:'application/json'});
+    if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:'Sauvegarde Lady Gaine'}).then(function(){bkMark();toast('Sauvegarde envoyée ✓')}).catch(function(e){if(e&&e.name!=='AbortError')exportJson()});return}}catch(e){}
+  exportJson()}
 function importJson(file){
   if(!file)return;var r=new FileReader();
   r.onerror=function(){toast('Impossible de lire ce fichier.')};
@@ -2378,7 +2400,7 @@ var ACT={
   more:function(b){S.limit[b.dataset.k]+=60;render()},
   export:function(b){exportCsv(b.dataset.what)},'export-bilan':exportBilan,
   theme:function(b){putCfg({theme:b.dataset.t}).catch(fail)},
-  backup:exportJson,
+  backup:exportJson,'backup-share':shareBackup,
   install:function(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(){deferredPrompt=null;render()})}},
   pick:function(b){
     b.parentNode.querySelectorAll('.ch').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
@@ -2456,7 +2478,7 @@ var PGHINT={'Commandes et ventes':['truck','Suis chaque commande : appel, livrai
 function decoHints(){var h=document.querySelector('#app h2');if(!h||h.nextElementSibling&&h.nextElementSibling.classList.contains('pghint'))return;var k=PGHINT[h.textContent.trim()];if(!k||!ICON[k[0]])return;h.insertAdjacentHTML('afterend','<p class="pghint">'+ic(k[0],18)+'<span>'+k[1]+'</span></p>')}
 
 /* ---------- Partie 2 : icônes automatiques sur boutons, filtres, onglets ---------- */
-var ACTIC={'new-vente':'plus','new-dep':'plus','new-arr':'plus','new-old':'layers','new-clot':'lock','redo-clot':'refresh','pay':'card','payall':'card','pay-credit':'card','void':'trash','cmd-fin':'check','cmd-st':'truck','cmd-liv':'truck','cmd-fac':'receipt','cmd-edit':'edit','inv-share':'share','inv-pdf':'download','export':'download','export-bilan':'download','backup':'download','demo-on':'bolt','demo-off':'trash','reset-open':'alert','reset-go':'alert','reset-backup':'download','install':'download','notif-on':'bell','justify-all':'send','edit-vente':'edit','edit-lot':'edit','edit-dep':'edit','more':'plus','arr-fiche':'bolt','add-col':'plus'};
+var ACTIC={'backup-share':'send','new-vente':'plus','new-dep':'plus','new-arr':'plus','new-old':'layers','new-clot':'lock','redo-clot':'refresh','pay':'card','payall':'card','pay-credit':'card','void':'trash','cmd-fin':'check','cmd-st':'truck','cmd-liv':'truck','cmd-fac':'receipt','cmd-edit':'edit','inv-share':'share','inv-pdf':'download','export':'download','export-bilan':'download','backup':'download','demo-on':'bolt','demo-off':'trash','reset-open':'alert','reset-go':'alert','reset-backup':'download','install':'download','notif-on':'bell','justify-all':'send','edit-vente':'edit','edit-lot':'edit','edit-dep':'edit','more':'plus','arr-fiche':'bolt','add-col':'plus'};
 var FILTIC={tous:'list',ouvert:'clock',aconfirmer:'phone',livraison:'truck',suspendue:'pause',livree:'check',dead:'ban'};
 var SEGIC={cmd:'list',jour:'calendar',jours:'calendar',tableau:'grid',lots:'arr',stock:'box',credits:'card'};
 var TRIOIC={'À confirmer':'phone','À livrer':'truck','À encaisser':'money'};
@@ -2534,7 +2556,7 @@ function ctlStart(){
   requestAnimationFrame(f);CTLH={cv:cv,stop:function(){run=false}}}
 function ctlHtml(){
   var vs=S.data.ventes.filter(function(v){return !v.void}).length,cm=S.data.commandes.filter(function(c){return !c.void}).length,ar=S.data.lots.filter(function(l){return !l.void}).length;
-  return '<div class="ctl"><canvas id="ctlfx" aria-hidden="true"></canvas><div class="ctl-t"><small>CENTRE DE CONTRÔLE</small><b>Lady Gaine</b><span><i class="dot"></i> Système actif · '+(S.db?'synchronisé':'données sur ce téléphone')+'</span><span class="ver">Version 15 · facture : '+(S.cfg.facStyle==='moderne'?'moderne':'classique')+'</span>'
+  return '<div class="ctl"><canvas id="ctlfx" aria-hidden="true"></canvas><div class="ctl-t"><small>CENTRE DE CONTRÔLE</small><b>Lady Gaine</b><span><i class="dot"></i> Système actif · '+(S.db?'synchronisé':'données sur ce téléphone')+'</span><span class="ver">Version 17 · sauvegarde : '+(S.cfg.facStyle==='moderne'?'moderne':'classique')+'</span>'
    +'<div class="ctl-s"><em>'+cm+'<small>commandes</small></em><em>'+vs+'<small>ventes</small></em><em>'+ar+'<small>arrivages</small></em></div></div></div>'}
 /* ouverture animée */
 function splash(){
