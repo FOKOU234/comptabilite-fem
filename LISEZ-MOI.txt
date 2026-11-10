@@ -1,7 +1,9 @@
-LADY GAINE · application de gestion
+LADY GAINE PRO - logiciel PC
 
-Ce dossier est l'application complète (arrivages avec tailles et couleurs, commandes, livraisons, factures, caisse).
-Elle se met en ligne sur GitHub puis Vercel, comme Comptabilité Fem, dans un NOUVEAU dépôt (par exemple « lady-gaine-gestion »).
-Ne mélange pas ces fichiers avec ceux de Comptabilité Fem.
+1. Mets TOUS ces fichiers (pas le dossier) a la racine d'un NOUVEAU repo GitHub : lady-gaine-pro
+2. Sur vercel.com : Add New > Project > lady-gaine-pro > Deploy (ne change aucun reglage)
+3. Ouvre le lien Vercel dans Chrome ou Edge sur ton PC, clique sur "Installer" (icone a droite de la barre d'adresse)
+4. Raccourci bureau : laisse cochee la case "Creer un raccourci" ou chrome://apps > clic droit > Creer un raccourci
 
-Tes données restent sur le téléphone où l'application est installée. Fais une sauvegarde chaque semaine : Réglages > Télécharger une sauvegarde.
+Raccourcis clavier : Ctrl+K = recherche, Alt+1 a Alt+9 = changer de page.
+Les donnees du PC sont separees de celles du telephone. Pour les transferer : Sauvegarde sur le telephone, puis Restaurer dans Reglages du PRO.

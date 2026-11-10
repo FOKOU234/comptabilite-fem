@@ -1,12 +1,12 @@
 {
- "name": "Lady Gaine",
- "short_name": "Lady Gaine",
- "description": "Arrivages, commandes, livraisons, factures et caisse",
+ "name": "Lady Gaine PRO",
+ "short_name": "LG PRO",
+ "description": "Logiciel de gestion et comptabilité Lady Gaine pour PC",
  "lang": "fr",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",
- "orientation": "portrait",
+ "orientation": "any",
  "background_color": "#110A0D",
  "theme_color": "#110A0D",
  "icons": [
@@ -28,5 +28,6 @@
    "type": "image/png",
    "purpose": "maskable"
   }
- ]
+ ],
+ "id": "./?pro"
 }
